@@ -170,5 +170,5 @@ adapter = CLI.choose_adapter.match(/\d+$/)[0]
 country = CLI.choose_country
 atsc = CLI.confirm?('Do you want to scan ATSC Cable too?', false) ? ['-A', '3', '-o', '7'] : []
 
-Bin.w_scan('-c', country, '-a', adapter, '-O', '1', '-t', '3', *atsc)
+Bin.w_scan('-x', '-c', country, '-a', adapter, '-O', '1', '-t', '3', *atsc)
 Bin.dvbscan('-a', adapter, File.join(Dir.home, 'scan.dvb'))
