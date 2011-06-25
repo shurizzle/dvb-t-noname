@@ -72,7 +72,7 @@ diff -ruEbBN linux-2.6.39.old/drivers/media/rc/keymaps/rc-noname.c linux-2.6.39.
 +  { 0x0042, KEY_RECORD },
 +  { 0x0043, KEY_BACK },
 +  { 0x0044, KEY_LAST },
-+  { 0x0045, KEY_POWER2 },
++  { 0x0045, KEY_PLAYPAUSE },
 +  { 0x0046, KEY_VOLUMEUP },
 +  { 0x0047, KEY_FORWARD },
 +  { 0x004a, KEY_TIME },
