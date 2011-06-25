@@ -149,9 +149,15 @@ class CLI
   end
 
   def self.choose_country
-    countries = Hash[`#{Bin::W_SCAN_BIN} -c'?'`.split(/\r?\n/).map {|line|
+    r, w = IO.pipe
+    Bin.w_scan('-c', '?', STDOUT => w)
+    w.close
+
+    countries = Hash[r.read.split(/\r?\n/).map {|line|
       line.strip.split(/\s+/, 2)
     }]
+
+    r.close
 
     CLI.choice(countries, nil, 'Choose country').tap {|choice|
       Kernel.die("Country not valid") unless (choice)
