@@ -36,9 +36,9 @@ diff -ruEbBN linux-2.6.39.old/drivers/media/rc/keymaps/rc-noname.c linux-2.6.39.
 +++ linux-2.6.39.new/drivers/media/rc/keymaps/rc-noname.c	2011-06-25 00:41:00.000000000 +0200
 @@ -0,0 +1,69 @@
 +/*
-+ * MSI DIGIVOX mini II remote controller keytable
++ * DVB-T "noname" remote controller keytable
 + *
-+ * Copyright (C) 2010 Antti Palosaari <crope@iki.fi>
++ * Copyright (C) 2010 shura <shura1991@gmail.com>
 + *
 + *    This program is free software; you can redistribute it and/or modify
 + *    it under the terms of the GNU General Public License as published by
