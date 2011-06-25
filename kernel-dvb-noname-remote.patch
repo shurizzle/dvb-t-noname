@@ -1,0 +1,117 @@
+diff -ruEbBN linux-2.6.39.old/drivers/media/dvb/dvb-usb/af9015.c linux-2.6.39.new/drivers/media/dvb/dvb-usb/af9015.c
+--- linux-2.6.39.old/drivers/media/dvb/dvb-usb/af9015.c	2011-05-19 06:06:34.000000000 +0200
++++ linux-2.6.39.new/drivers/media/dvb/dvb-usb/af9015.c	2011-06-24 19:40:45.000000000 +0200
+@@ -728,6 +728,7 @@
+ 	{ AF9015_REMOTE_MYGICTV_U718, RC_MAP_TOTAL_MEDIA_IN_HAND },
+ 	{ AF9015_REMOTE_DIGITTRADE_DVB_T, RC_MAP_DIGITTRADE },
+ 	{ AF9015_REMOTE_AVERMEDIA_KS, RC_MAP_AVERMEDIA_RM_KS },
++  { AF9015_REMOTE_NONAME, RC_MAP_NONAME },
+ 	{ }
+ };
+ 
+diff -ruEbBN linux-2.6.39.old/drivers/media/dvb/dvb-usb/af9015.h linux-2.6.39.new/drivers/media/dvb/dvb-usb/af9015.h
+--- linux-2.6.39.old/drivers/media/dvb/dvb-usb/af9015.h	2011-05-19 06:06:34.000000000 +0200
++++ linux-2.6.39.new/drivers/media/dvb/dvb-usb/af9015.h	2011-06-24 19:40:14.000000000 +0200
+@@ -120,6 +120,7 @@
+ 	AF9015_REMOTE_MYGICTV_U718,
+ 	AF9015_REMOTE_DIGITTRADE_DVB_T,
+ /* 5 */	AF9015_REMOTE_AVERMEDIA_KS,
++  AF9015_REMOTE_NONAME,
+ };
+ 
+ #endif
+diff -ruEbBN linux-2.6.39.old/drivers/media/rc/keymaps/Makefile linux-2.6.39.new/drivers/media/rc/keymaps/Makefile
+--- linux-2.6.39.old/drivers/media/rc/keymaps/Makefile	2011-05-19 06:06:34.000000000 +0200
++++ linux-2.6.39.new/drivers/media/rc/keymaps/Makefile	2011-06-24 20:09:35.000000000 +0200
+@@ -54,6 +54,7 @@
+ 			rc-nebula.o \
+ 			rc-nec-terratec-cinergy-xs.o \
+ 			rc-norwood.o \
++			rc-noname.o \
+ 			rc-npgtech.o \
+ 			rc-pctv-sedna.o \
+ 			rc-pinnacle-color.o \
+diff -ruEbBN linux-2.6.39.old/drivers/media/rc/keymaps/rc-noname.c linux-2.6.39.new/drivers/media/rc/keymaps/rc-noname.c
+--- linux-2.6.39.old/drivers/media/rc/keymaps/rc-noname.c	1970-01-01 01:00:00.000000000 +0100
++++ linux-2.6.39.new/drivers/media/rc/keymaps/rc-noname.c	2011-06-25 00:41:00.000000000 +0200
+@@ -0,0 +1,69 @@
++/*
++ * MSI DIGIVOX mini II remote controller keytable
++ *
++ * Copyright (C) 2010 Antti Palosaari <crope@iki.fi>
++ *
++ *    This program is free software; you can redistribute it and/or modify
++ *    it under the terms of the GNU General Public License as published by
++ *    the Free Software Foundation; either version 2 of the License, or
++ *    (at your option) any later version.
++ *
++ *    This program is distributed in the hope that it will be useful,
++ *    but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *    GNU General Public License for more details.
++ *
++ *    You should have received a copy of the GNU General Public License along
++ *    with this program; if not, write to the Free Software Foundation, Inc.,
++ *    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
++ */
++
++#include <media/rc-map.h>
++
++static struct rc_map_table noname[] = {
++  { 0x0007, KEY_1 },
++  { 0x0008, KEY_ZOOM },
++  { 0x0009, KEY_3 },
++  { 0x000c, KEY_7 },
++  { 0x000d, KEY_6 },
++  { 0x0015, KEY_2 },
++  { 0x0016, KEY_4 },
++  { 0x0018, KEY_8 },
++  { 0x0019, KEY_5 },
++  { 0x001c, KEY_0 },
++  { 0x0040, KEY_VOLUMEDOWN },
++  { 0x0042, KEY_RECORD },
++  { 0x0043, KEY_CHANNELDOWN },
++  { 0x0044, KEY_LAST },
++  { 0x0045, KEY_POWER2 },
++  { 0x0046, KEY_VOLUMEUP },
++  { 0x0047, KEY_CHANNELUP },
++  { 0x004a, KEY_TIME },
++  { 0x005a, KEY_STOP },
++  { 0x005e, KEY_9 },
++};
++
++static struct rc_map_list noname_map = {
++	.map = {
++		.scan    = noname,
++		.size    = ARRAY_SIZE(noname),
++		.rc_type = RC_TYPE_NEC,
++		.name    = RC_MAP_NONAME,
++	}
++};
++
++static int __init init_rc_map_noname(void)
++{
++	return rc_map_register(&noname_map);
++}
++
++static void __exit exit_rc_map_noname(void)
++{
++	rc_map_unregister(&noname_map);
++}
++
++module_init(init_rc_map_noname)
++module_exit(exit_rc_map_noname)
++
++MODULE_LICENSE("GPL");
++MODULE_AUTHOR("shura <shura1991@gmail.com>");
+diff -ruEbBN linux-2.6.39.old/include/media/rc-map.h linux-2.6.39.new/include/media/rc-map.h
+--- linux-2.6.39.old/include/media/rc-map.h	2011-05-19 06:06:34.000000000 +0200
++++ linux-2.6.39.new/include/media/rc-map.h	2011-06-24 19:34:30.000000000 +0200
+@@ -112,6 +112,7 @@
+ #define RC_MAP_NEBULA                    "rc-nebula"
+ #define RC_MAP_NEC_TERRATEC_CINERGY_XS   "rc-nec-terratec-cinergy-xs"
+ #define RC_MAP_NORWOOD                   "rc-norwood"
++#define RC_MAP_NONAME                    "rc-noname"
+ #define RC_MAP_NPGTECH                   "rc-npgtech"
+ #define RC_MAP_PCTV_SEDNA                "rc-pctv-sedna"
+ #define RC_MAP_PINNACLE_COLOR            "rc-pinnacle-color"
