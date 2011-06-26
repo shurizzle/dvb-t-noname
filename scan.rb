@@ -190,6 +190,6 @@ end
 adapter = CLI.choose_adapter.match(/\d+$/)[0]
 country = CLI.choose_country
 
-Bin.w_scan('-v', '-x', '-c', country, '-a', '-f', 't', adapter, '-O', '1', '-t', '3')
+Bin.w_scan('-v', '-x', '-c', country, '-a', adapter, '-f', 't', '-O', '1', '-t', '3')
 Bin.dvbscan('-a', adapter, '-5', '-n', '-v', File.join(Dir.home, 'scan.dvb'))
 SanitizeConf.channels
