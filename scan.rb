@@ -165,10 +165,31 @@ class CLI
   end
 end
 
+class SanitizeConf
+  def self.dvb
+  end
+
+  def self.channels (file=File.join(Dir.home, '.mplayer', 'channels.conf'))
+    File.read(file).split(/\r?\n/).map {|line|
+      line = line.split(':')
+      line[0].gsub!(/[^a-z0-9_-]/i, '')
+      line
+    }.inject({}) {|h, line|
+      h[line.first] = line[1..-1] unless h.values.include?(line)
+      h
+    }.map {|*line|
+      line.flatten.join(':')
+    }.join("\n").tap {|conf|
+      File.open(file, 'w') {|f|
+        f.write(conf)
+      }
+    }
+  end
+end
 
 adapter = CLI.choose_adapter.match(/\d+$/)[0]
 country = CLI.choose_country
-atsc = CLI.confirm?('Do you want to scan ATSC Cable too?', false) ? ['-A', '3', '-o', '7'] : []
 
-Bin.w_scan('-x', '-c', country, '-a', adapter, '-O', '1', '-t', '3', *atsc)
-Bin.dvbscan('-a', adapter, File.join(Dir.home, 'scan.dvb'))
+Bin.w_scan('-v', '-x', '-c', country, '-a', '-f', 't', adapter, '-O', '1', '-t', '3')
+Bin.dvbscan('-a', adapter, '-5', '-n', '-v', File.join(Dir.home, 'scan.dvb'))
+SanitizeConf.channels
