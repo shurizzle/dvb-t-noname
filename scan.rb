@@ -175,11 +175,13 @@ class SanitizeConf
       line[0].gsub!(/[^a-z0-9_-]/i, '')
       line
     }.inject({}) {|h, line|
-      h[line.first] = line[1..-1] unless h.values.include?(line)
+      (h[line.first] ||= []) << line[1..-1] unless h.values.flatten(1).include?(line)
       h
-    }.map {|*line|
-      line.flatten.join(':')
-    }.join("\n").tap {|conf|
+    }.map {|name, i|
+      i.map {|chan|
+        ([name] + chan).join(':')
+      }
+    }.inject(:zip).map(&:flatten).join("\n").tap {|conf|
       File.open(file, 'w') {|f|
         f.write(conf)
       }
