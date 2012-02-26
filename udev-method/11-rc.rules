@@ -1,0 +1,1 @@
+ACTION=="add", SUBSYSTEM=="rc", ATTRS{idVendor}=="15a4", ATTRS{idProduct}=="9016", RUN+="/usr/bin/ir-keytable -s $name -w /etc/udev/dvb-usb-af9015-noname-ir"

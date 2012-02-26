@@ -1,0 +1,1 @@
+first make sure ir-keytable is in /usr/bin then move 11-rc.rules in /etc/udev/rules.d and dvb-usb-af9015-noname-ir in /etc/udev
